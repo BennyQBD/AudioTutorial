@@ -3,6 +3,8 @@ Audio Tutorial
 
 thebennybox Audio Programming Tutorial code
 
+Tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtBVpZvp-R2daNfy9k3-L-Q3u
+
 ##Build Dependencies##
 - [CMAKE](http://www.cmake.org/)
 - [SDL2](http://www.libsdl.org/)
