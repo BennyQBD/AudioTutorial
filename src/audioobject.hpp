@@ -24,76 +24,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <iostream>
-#include <SDL2/SDL.h>
+#ifndef AUDIO_OBJECT_INCLUDED_HPP
+#define AUDIO_OBJECT_INCLUDED_HPP
 
-#define FILE_PATH "./res/audio/testClip.wav"
+#include "iaudiodata.hpp"
+#include "sampleinfo.hpp"
 
-struct AudioData
+class AudioObject
 {
-	Uint8* pos;
-	Uint32 length;
+public:
+	AudioObject(const SampleInfo& info, IAudioData* data);
+
+	bool GenerateSamples(float* stream, size_t streamLength);
+	void SetPos(double pos);
+private:
+	size_t      m_audioPos;
+	size_t      m_audioLength;
+	SampleInfo  m_sampleInfo;
+	IAudioData* m_audioData;
+
+	size_t PosToAbsolutePos(double pos);
 };
 
-void MyAudioCallback(void* userdata, Uint8* stream, int streamLength)
-{
-	AudioData* audio = (AudioData*)userdata;
-
-	if(audio->length == 0)
-	{
-		return;
-	}
-
-	Uint32 length = (Uint32)streamLength;
-	length = (length > audio->length ? audio->length : length);
-
-	SDL_memcpy(stream, audio->pos, length);
-
-	audio->pos += length;
-	audio->length -= length;
-}
-
-int main(int argc, char** argv)
-{
-	SDL_Init(SDL_INIT_AUDIO);
-
-	SDL_AudioSpec wavSpec;
-	Uint8* wavStart;
-	Uint32 wavLength;
-
-	if(SDL_LoadWAV(FILE_PATH, &wavSpec, &wavStart, &wavLength) == NULL)
-	{
-		// TODO: Proper error handling
-		std::cerr << "Error: " << FILE_PATH 
-			<< " could not be loaded as an audio file" << std::endl;
-		return 1;
-	}
-
-	AudioData audio;
-	audio.pos = wavStart;
-	audio.length = wavLength;
-
-	wavSpec.callback = MyAudioCallback;
-	wavSpec.userdata = &audio;
-
-	SDL_AudioDeviceID device = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL,
-			SDL_AUDIO_ALLOW_ANY_CHANGE);
-	if(device == 0)
-	{
-		// TODO: Proper error handling
-		std::cerr << "Error: " << SDL_GetError() << std::endl;
-		return 1;
-	}
-
-	SDL_PauseAudioDevice(device, 0);
-
-	while(audio.length > 0)
-	{
-		SDL_Delay(100);
-	}
-
-	SDL_CloseAudioDevice(device);
-	SDL_FreeWAV(wavStart);
-	SDL_Quit();
-	return 0;
-}
+#endif

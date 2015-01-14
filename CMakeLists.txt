@@ -1,5 +1,5 @@
-#Copyright (C) 2014 Barry Deeney
-#Copyright (c) 2014, Benny Bobaganoosh
+#Copyright (C) 2015 Barry Deeney
+#Copyright (c) 2015, Benny Bobaganoosh
 #All rights reserved.
 #
 #Redistribution and use in source and binary forms, with or without
