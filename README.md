@@ -47,8 +47,8 @@ brew install cmake sdl2
 ###Windows###
 - Make sure CMake is both installed and added to the system PATH.
 - Run "Windows-GenVisualStudioProject.bat" If this fails for any reason, try using the Manual Build Instructions below.
-- Go to the build folder, and open 3DEngineCpp.sln with Visual Studio 2012 or newer (For older versions of Visual Studio, use manual build instructions)
-- Right click on the 3DEngineCpp project, and select "Set as start up project"
+- Go to the build folder, and open AudioProject.sln with Visual Studio 2012 or newer (For older versions of Visual Studio, use manual build instructions)
+- Right click on the AudioProject project, and select "Set as start up project"
 - Build and Run
 
 ##Manual Build Instructions##
