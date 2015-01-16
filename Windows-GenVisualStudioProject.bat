@@ -22,7 +22,7 @@
 ::SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 cd build
-cmake -G "Visual Studio 11" ../
+cmake -G "Visual Studio 12" ../
 mkdir Debug
 mkdir Release
 copy ..\lib\_bin\ Debug
