@@ -24,54 +24,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <iostream>
+#ifndef SDL_WAV_AUDIO_DATA_INCLUDED_HPP
+#define SDL_WAV_AUDIO_DATA_INCLUDED_HPP
+
+#include "../iaudiodata.hpp"
 #include <SDL2/SDL.h>
+#include <string>
 
-#include "iaudiodevice.hpp"
-#include "iaudiocontext.hpp"
-#include "audioobject.hpp"
-
-#include "sdl/sdlaudiodevice.hpp"
-#include "sdl/sdlaudiocontext.hpp"
-
-#define FILE_PATH "./res/audio/testClip.wav"
-
-int main(int argc, char** argv)
+class SDLWAVAudioData : public IAudioData
 {
-	SDL_Init(SDL_INIT_AUDIO);
+public:
+	SDLWAVAudioData(const std::string& fileName, bool streamFromFile);
+	virtual ~SDLWAVAudioData();
 
-	IAudioDevice* device = new SDLAudioDevice();
-	IAudioContext* context = new SDLAudioContext();
+	virtual size_t GenerateSamples(float* stream, size_t streamLength, 
+			size_t pos, const SampleInfo& info);
+	virtual size_t GetAudioLength();
+private:
+	Uint8* m_pos;
+	Uint8* m_start;
+	Uint32 m_length;
 
-	IAudioData* data = device->CreateAudioFromFile(FILE_PATH);
+	SDLWAVAudioData(SDLWAVAudioData& other) { (void)other; }
+	void operator=(const SDLWAVAudioData& other) { (void)other;}
+};
 
-	SampleInfo info;
-	info.volume = 1.0;
-
-	AudioObject sound(info, data);
-
-	char in = 0;
-	while(in != 'q')
-	{
-		std::cin >> in;
-		switch(in)
-		{
-			case 'a':
-				context->PlayAudio(sound);
-				break;
-			case 's':
-				context->PauseAudio(sound);
-				break;
-			case 'd':
-				context->StopAudio(sound);
-				break;
-		}
-	}
-
-	device->ReleaseAudio(data);
-	delete context;
-	delete device;
-
-	SDL_Quit();
-	return 0;
-}
+#endif

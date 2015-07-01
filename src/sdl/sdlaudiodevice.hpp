@@ -24,54 +24,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <iostream>
-#include <SDL2/SDL.h>
+#ifndef SDL_AUDIO_DEVICE_INCLUDED_HPP
+#define SDL_AUDIO_DEVICE_INCLUDED_HPP
 
-#include "iaudiodevice.hpp"
-#include "iaudiocontext.hpp"
-#include "audioobject.hpp"
+#include "../iaudiodevice.hpp"
 
-#include "sdl/sdlaudiodevice.hpp"
-#include "sdl/sdlaudiocontext.hpp"
-
-#define FILE_PATH "./res/audio/testClip.wav"
-
-int main(int argc, char** argv)
+class SDLAudioDevice : public IAudioDevice
 {
-	SDL_Init(SDL_INIT_AUDIO);
+public:
+	virtual IAudioData* CreateAudioFromFile(const std::string& filePath);
+	virtual void ReleaseAudio(IAudioData* audioData);
+private:
+};
 
-	IAudioDevice* device = new SDLAudioDevice();
-	IAudioContext* context = new SDLAudioContext();
-
-	IAudioData* data = device->CreateAudioFromFile(FILE_PATH);
-
-	SampleInfo info;
-	info.volume = 1.0;
-
-	AudioObject sound(info, data);
-
-	char in = 0;
-	while(in != 'q')
-	{
-		std::cin >> in;
-		switch(in)
-		{
-			case 'a':
-				context->PlayAudio(sound);
-				break;
-			case 's':
-				context->PauseAudio(sound);
-				break;
-			case 'd':
-				context->StopAudio(sound);
-				break;
-		}
-	}
-
-	device->ReleaseAudio(data);
-	delete context;
-	delete device;
-
-	SDL_Quit();
-	return 0;
-}
+#endif
