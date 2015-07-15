@@ -49,6 +49,7 @@ int main(int argc, char** argv)
 	info.volume = 1.0;
 
 	AudioObject sound(info, data);
+	sound.SetPos(0.2);
 
 	char in = 0;
 	while(in != 'q')

@@ -43,7 +43,8 @@ public:
 private:
 	Uint8* m_pos;
 	Uint8* m_start;
-	Uint32 m_length;
+	Uint8* m_end;
+	//Uint32 m_length;
 
 	SDLWAVAudioData(SDLWAVAudioData& other) { (void)other; }
 	void operator=(const SDLWAVAudioData& other) { (void)other;}
