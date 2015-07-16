@@ -30,6 +30,7 @@
 struct SampleInfo
 {
 	double volume;
+	double pitch;
 };
 
 #endif
